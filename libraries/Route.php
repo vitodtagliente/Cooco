@@ -66,7 +66,7 @@ class Route {
             $classname = $pieces[0];
             $action = $pieces[1];
         }
-        $filename = self::$controllersPath . '/' . strtolower($classname) . '.php';
+        $filename = self::$controllersPath . '/' . $classname . '.php';
 
         return $this->callController( $filename, $classname, $action, $params );
     }
