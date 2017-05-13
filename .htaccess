@@ -1,0 +1,4 @@
+RewriteEngine on
+#RewriteBase /WebSeed/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php
