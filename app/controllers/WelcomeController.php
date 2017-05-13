@@ -1,7 +1,7 @@
 <?php
 
-use Cooco\Controller;
-use Cooco\View;
+use Pure\Controller;
+use Pure\View;
 
 class WelcomeController extends Controller {
 

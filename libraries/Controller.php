@@ -1,6 +1,6 @@
 <?php
 
-namespace Cooco;
+namespace Pure;
 
 abstract class Controller {
 

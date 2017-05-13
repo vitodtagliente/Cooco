@@ -6,7 +6,7 @@ require_once __DIR__ . '/libraries/Controller.php';
 require_once __DIR__ . '/libraries/View.php';
 require_once __DIR__ . '/libraries/Application.php';
 
-$router = new Cooco\Router();
+$router = new Pure\Router();
 
 include_once __DIR__ . '/config.php';
 include_once __DIR__ . '/routes/web.php';

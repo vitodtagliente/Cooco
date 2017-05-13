@@ -4,6 +4,6 @@
     </head>
 
     <body>
-        <h3>Welcome to Cooco</h3>
+        <h3>Welcome to Pure</h3>
     </body>
 </html>

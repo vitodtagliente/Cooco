@@ -1,6 +1,6 @@
 <?php
 
-namespace Cooco;
+namespace Pure;
 
 require_once __DIR__ .'/ViewScriptEngine.php';
 

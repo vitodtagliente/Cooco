@@ -1,16 +1,24 @@
 <?php
 
-namespace Cooco;
+/*
+
+    This class is used internally by the router
+    to define a route call
+
+*/
+
+namespace Pure;
 
 class Route {
+
+    // a route is defined by a callback and params
+    // callback can be : function, string or array data
 
     private $callback = null;
     private $params = [];
 
-    public static $controllersPath = null;
-
-    private static $onstringhandler = null;
-    private static $ondatahandler = null;
+    // default path where to include controllers
+    private static $path = null;
 
     function __construct( $callback, $params ){
         $this->callback = $callback;
@@ -20,53 +28,61 @@ class Route {
             $this->params = [];
     }
 
+    // execute the callback
     public function call(){
         if( is_array( $this->callback ) ){
-            if( self::$ondatahandler != null){
-                $result = call_user_func_array(
-                    self::$ondatahandler,
-                    [$this->callback, $this->params]
-                );
-                return ($result==null)?true:$result;
-            }
-            else return $this->defaultOnData( $this->callback, $this->params );
+            return $this->processData( $this->callback, $this->params );
         }
         else if( is_callable( $this->callback ) ){
             call_user_func_array( $this->callback, $this->params );
             return true;
         }
         else if( is_string( $this->callback ) ){
-            if( self::$onstringhandler != null ){
-                $result = call_user_func_array(
-                    self::$onstringhandler,
-                    [$this->callback, $this->params]
-                );
-                return ($result==null)?true:$result;
-            }
-            else return $this->defaultOnString( $this->callback, $this->params );
+            return $this->processString( $this->callback, $this->params );
         }
         else return false;
     }
 
-    private function defaultOnData( $data, $params ){
+    /*
+        if callback is array, it must have fields:
+        - filename: the filename that has to be include
+        - classname: the name of the class that's to be instantiated
+        - action: the method which will be called
+    */
+    private function processData( $data, $params ){
         $filename = $data['filename'];
         $classname = $data['classname'];
         $action = $data['action'];
-        if($action == null)
-            $action = 'index';
 
         return $this->callController( $filename, $classname, $action, $params );
     }
 
-    private function defaultOnString( $data, $params ){
+    private function processString( $data, $params ){
         $classname = $data;
         $action = 'index';
+        // if string contains @, like in the example: Foo@action1
+        // extract Foo like classname, action1 like method
         if (($strpos = strpos($data, '@')) !== false){
             $pieces = explode( '@', $data );
             $classname = $pieces[0];
             $action = $pieces[1];
         }
-        $filename = self::$controllersPath . '/' . $classname . '.php';
+
+        // if string starts with //
+        // include the file starting from root directory
+        if( strpos($classname, '//') === 0 ){
+            $filename = ltrim($classname, '/') . '.php';
+        }
+        // else include the file starting from
+        // the default controllers'path
+        else
+            $filename = self::path() . '/' . $classname . '.php';
+
+        // if string contains /, like user/User, use the last piece 'User' as classname
+        if( ($strpos = strpos($classname, '/')) !== false ){
+            $pieces = explode( '/', $classname );
+            $classname = $pieces[ count($pieces) - 1 ];
+        }
 
         return $this->callController( $filename, $classname, $action, $params );
     }
@@ -94,12 +110,13 @@ class Route {
         return true;
     }
 
-    public static function onString( $handler ){
-        self::$onstringhandler = $handler;
-    }
-
-    public static function onData( $handler ){
-        self::$ondatahandler = $handler;
+    /*
+        set or return the default path where controllers will be looked at
+    */
+    public static function path($path = null){
+        if(isset($path))
+            self::$path = $path;
+        else return self::$path;
     }
 
     function __destruct(){
