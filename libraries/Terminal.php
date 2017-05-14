@@ -4,6 +4,8 @@ namespace Pure\CLI;
 
 class Terminal {
 
+    private static $path = null;
+
     function __construct(){
 
     }
@@ -23,7 +25,7 @@ class Terminal {
         }
 
         // include the command file
-        $filename = __DIR__ . "/commands/$command.php";
+        $filename = self::path() . "/$command.php";
         if( file_exists( $filename ) == false ){
             echo "Error, cannot find $command command\n";
             return;
@@ -36,6 +38,14 @@ class Terminal {
         else echo "Cannot call $command:$action\n";
     }
 
+    /*
+        set or return the default path where controllers will be looked at
+    */
+    public static function path($path = null){
+        if(isset($path))
+            self::$path = $path;
+        else return self::$path;
+    }
 
     function __destruct(){
 

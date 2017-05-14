@@ -3,9 +3,11 @@
 if( count($argv) <= 1 )
     return;
 
-require_once __DIR__ . '/cli/Terminal.php';
-require_once __DIR__ . '/cli/Command.php';
+require_once __DIR__ . '/boot.php';
+require_once __DIR__ . '/libraries/Terminal.php';
+require_once __DIR__ . '/libraries/Command.php';
 
+Pure\CLI\Terminal::path( __DIR__ . '/cli' );
 $terminal = new Pure\CLI\Terminal();
 // Remove the first element cause equals to "pure"
 array_shift( $argv );

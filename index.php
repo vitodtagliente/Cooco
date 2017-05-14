@@ -1,15 +1,12 @@
 <?php
 
-require_once __DIR__ . '/libraries/Route.php';
-require_once __DIR__ . '/libraries/Router.php';
-require_once __DIR__ . '/libraries/Controller.php';
-require_once __DIR__ . '/libraries/View.php';
+require_once __DIR__ . '/boot.php';
 
-$router = new Pure\Router();
+$app = new Pure\Application();
+$router = $app->router();
 
-include_once __DIR__ . '/config.php';
 include_once __DIR__ . '/routes/web.php';
 
-$router->dispatch();
+$app->run();
 
 ?>
