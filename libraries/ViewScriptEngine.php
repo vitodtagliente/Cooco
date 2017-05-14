@@ -4,9 +4,11 @@ namespace Pure;
 
 class ViewScriptEngine {
 
+	// Map php functions and variables
+
 	function map( $__pure_view_content, $__pure_view_params = array() ){
 
-		$__pure_view_content = $this->mapExtends( $__pure_view_content );
+		$__pure_view_content = $this->mapExtends( $__pure_view_content, $__pure_view_params );
 
 		$__pure_view_scripts = $this->findScripts( $__pure_view_content, '{{', '}}' );
 
@@ -50,7 +52,8 @@ class ViewScriptEngine {
 	}
 
 	/*
-		Returns an array of all scripts found:
+		Returns an array of all scripts found.
+		Example: findScripts( text, '{{', '}}' );
 		[
 			'{{ script1; }}',
 			'{{ script2; }}',
@@ -79,6 +82,9 @@ class ViewScriptEngine {
 		return $scripts;
 	}
 
+	// explode a string and returns all the arguments found
+	// Example: 'foo', 1, 2, 'test'
+	// output = ['foo', 1, 2, 'test']
 	private function mapArguments( $text )
 	{
 		$argv = [];
@@ -86,11 +92,13 @@ class ViewScriptEngine {
 		{
 			$args = explode( ',', $text );
 			foreach ($args as $a) {
+				// trim the argument
 				$a = trim( $a );
 				$a = trim( $a, "'" );
 				$a = trim( $a, '"' );
 				$a = trim( $a );
-				if( $a == "null" || $a == "NULL" )
+				// parse null
+				if( strtolower($a) == "null" )
 					$a = null;
 				array_push( $argv, $a );
 			}
@@ -99,67 +107,81 @@ class ViewScriptEngine {
 		return $argv;
 	}
 
-	private function mapExtends( $text ){
+	/*
+		implements the view's extension capability
+		Example:
+			@extends('filename')
+			- filename represents a view to extend
+
+			[NOTE] extends must be the first statement
+
+		In parent View can be defined sections to be override
+		with expression: @section('name')
+
+		To override a section, do like follow:
+		@begin('name')
+		...code...
+		@end
+	*/
+	private function mapExtends( $text, $params = array() ){
 
 		$scripts = $this->findScripts( $text, '@', ')' );
 
 		$contains_extends = false;
 		$base = $text;
 
-		if( count( $scripts ) > 0 )
+		var_dump($scripts);
+
+        foreach ($scripts as $script)
 		{
-            foreach ($scripts as $script)
+			// trim scripts
+			$s = str_replace( '@', '', $script );
+			$s = str_replace( ')', '', $s );
+            $s = trim( $s );
+            $s = rtrim( $s, ';' );
+
+			$pieces = explode('(', $s);
+			$func = $pieces[0];
+			$arguments = $pieces[1];
+
+			$argv = $this->mapArguments($arguments);
+
+			if($func == 'extends')
 			{
-				$s = str_replace( '@', '', $script );
-				$s = str_replace( ')', '', $s );
-                $s = trim( $s );
-                $s = rtrim( $s, ';' );
-
-				$pieces = explode('(', $s);
-				$func = $pieces[0];
-				$arguments = $pieces[1];
-
-				$argv = $this->mapArguments($arguments);
-
-				if($func == 'extends')
+				// Use a view as template
+				$contains_extends = true;
+				ob_start();
+				View::make($argv[0], $params);
+				$base = ob_get_contents();
+				ob_end_clean();
+				continue;
+			}
+			/*
+				if contains a begin('name'), override the section
+				remember to find the @end tag
+			*/
+			else if($func == 'begin')
+			{
+				if($contains_extends && count($argv) > 0 && !empty($argv[0]))
 				{
-					if(count($argv) > 0 && !empty($argv[0]))
+					$pieces = explode($script, $text);
+					$pieces = explode('@end', $pieces[1]);
+					if(count($pieces) > 0)
 					{
-						$contains_extends = true;
-						//$base =  file_get_contents(View::path() . '/' . $argv[0]);
-						ob_start();
-						View::make($argv[0]);
-						$base = ob_get_contents();
-						ob_end_clean();
-						continue;
-					}
-				}
-				else if($func == 'begin')
-				{
-					if($contains_extends && count($argv) > 0 && !empty($argv[0]))
-					{
-						$pieces = explode($script, $text);
-						if(count($pieces) > 0 ){
-							$pieces = explode('@end', $pieces[1]);
-							if(count($pieces) > 0)
-							{
-								//$sections[$argv[0]] = $pieces[0];
-								$key = $argv[0];
-								$value = $pieces[0];
+						$key = $argv[0];
+						$value = $pieces[0];
 
-								$base = str_replace("@section('$key')", $value, $base);
-								$base = str_replace("@section($key)", $value, $base);
-								$base = str_replace("@section(\"$key\")", $value, $base);
-							}
-						}
-						continue;
+						$base = str_replace("@section('$key')", $value, $base);
+						$base = str_replace("@section($key)", $value, $base);
+						$base = str_replace("@section(\"$key\")", $value, $base);
 					}
+					continue;
 				}
-				else
-				{
-					if($func != 'end' && $func != 'section')
-						$base = str_replace( $script, '', $base );
-				}
+			}
+			else
+			{
+				if($func != 'end' && $func != 'section')
+					$base = str_replace( $script, '', $base );
 			}
 		}
 

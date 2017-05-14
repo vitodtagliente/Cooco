@@ -1,15 +1,18 @@
-<html>
-	<head>
-		<title>home</title>
-	</head>
-	<body>
+@extends(template.php)
 
-		<h2>{{ $text }}</h2>
+@begin(title)
+titolo
+@end
 
-		{{ 
-			for($i = 0; $i < 8; $i++)
-				echo $i;
-		}}
+@begin(body)
 
-	</body>
-</html>
+{{ 
+
+	for($i = 0; $i < 10; $i++) 
+		echo $i;
+
+}}
+
+<h3>{{ $text }}</h3>
+
+@end
