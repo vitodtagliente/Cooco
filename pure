@@ -1,7 +1,9 @@
 <?php
 
-if( count($argv) <= 1 )
+if( count($argv) <= 1 ){
+	echo "\n\n\tWelcome to PURE\n\n\n";
     return;
+}
 
 require_once __DIR__ . '/boot.php';
 require_once __DIR__ . '/libraries/Terminal.php';

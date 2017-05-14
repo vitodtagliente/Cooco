@@ -18,8 +18,8 @@ class controller extends Command {
         	"?>"
         );
         if( !$result )
-            echo "Error: operation failed!";
-        else echo "Operation done!";
+            echo "Error: operation failed!\n\n";
+        else echo "Operation done!\n\n";
 
     }
 

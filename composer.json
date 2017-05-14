@@ -1,0 +1,13 @@
+{
+    "name": "vitodtagliente/pure",
+    "description": "A fresh and fast PHP micro framework",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vito Domenico Tagliente",
+            "email": "vitodomenicotagliente@gmail.com"
+        }
+    ],
+    "require": {}
+}
