@@ -2,15 +2,9 @@
 
 namespace Pure;
 
-require_once __DIR__ .'/ViewScriptEngine.php';
-
-/*
-    HOW TO:
-
-
-
-
-*/
+require_once __DIR__ . '/ViewEngine.php';
+require_once __DIR__ . '/ViewScriptEngine.php';
+require_once __DIR__ . '/ViewExtendEngine.php';
 
 class View
 {
@@ -41,7 +35,7 @@ class View
         $this->vars = array();
     }
 
-    public function render( $filename, $direct_output = true ){
+    public function render( $filename, $direct_output = true, $dont_compute = false ){
         if( file_exists( $filename ) == false ) {
             return false;
         }
@@ -54,9 +48,14 @@ class View
         $content = ob_get_contents();
 		ob_end_clean();
 
-        // Map functions and variables contained between {{ ... }}
-        $engine = new ViewScriptEngine();
-        $content = $engine->map( $content, $this->vars );
+        if( $dont_compute == false ){
+            // Map view's inheritance
+            $extend_engine = new ViewExtendEngine();
+            $content = $extend_engine->map( $content, $this->vars );
+            // Map functions and variables contained between {{ ... }}
+            $script_engine = new ViewScriptEngine();
+            $content = $script_engine->map( $content, $this->vars );
+        }
 
 		if($direct_output)
         	echo $content;
@@ -73,9 +72,9 @@ class View
         else return self::$path;
     }
 
-    public static function make( $filename, $params = array(), $direct_output = true ){
+    public static function make( $filename, $params = array(), $direct_output = true, $dont_compute = false ){
         $view = new View( $params );
-        return $view->render( self::$path . "/$filename", $direct_output );
+        return $view->render( self::$path . "/$filename", $direct_output, $dont_compute );
 
     }
 
