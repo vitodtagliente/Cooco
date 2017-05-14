@@ -1,0 +1,14 @@
+<?php
+
+if( count($argv) <= 1 )
+    return;
+
+require_once __DIR__ . '/cli/Terminal.php';
+require_once __DIR__ . '/cli/Command.php';
+
+$terminal = new Pure\CLI\Terminal();
+// Remove the first element cause equals to "pure"
+array_shift( $argv );
+$terminal->run( $argv );
+
+?>

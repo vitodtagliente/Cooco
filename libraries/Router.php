@@ -22,8 +22,8 @@ require_once __DIR__ . '/Route.php';
             you can call a controller like this:
             $router->get('/foo', 'FooController@foo');
 
-            Note that, in the example, the controller must have filename: 'foocontroller.php'
-            and must be located at the path specified in Route::$controllersPath
+            Note that, in the example, the controller must have filename: 'FooController.php'
+            and must be located at the path specified in Pure\Route::path()
 
             About the callable string, it means that the callback can be the name of function
                 function foo(){ ... }

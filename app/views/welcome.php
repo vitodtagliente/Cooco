@@ -1,9 +1,22 @@
 <html>
     <head>
-        <title>Welcome</title>
+        <title>Welcome to WebSeed</title>
+        <style>
+            body {
+                background-color: #fff;
+                font: 22px/20px normal Helvetica, Arial, sans-serif;
+                color: #4F5155;
+                text-align: center;
+            }
+            h1 {
+                padding-top: 120px;
+                opacity: 0.85;
+            }
+        </style>
     </head>
-
     <body>
-        <h3>Welcome to Pure</h3>
+        <div>
+            <h1>Welcome to Pure!</h1>
+        </div>
     </body>
 </html>
