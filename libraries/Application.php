@@ -25,7 +25,7 @@ class Application {
 
     public function run(){
         if( !$this->router()->dispatch() ){
-            echo "Error loading route!";
+            View::make( 'system/error.php', ['text' => 'Cannot find the route!']);
         }
     }
 

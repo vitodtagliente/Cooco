@@ -46,14 +46,17 @@ class View
             return false;
         }
 
+        // This allow to evaluate params in sections of view 
+        // where the php tag is used         
         extract( $this->vars );
         ob_start();
         include( $filename );
         $content = ob_get_contents();
 		ob_end_clean();
 
+        // Map functions and variables contained between {{ ... }}
         $engine = new ViewScriptEngine();
-        $content = $engine->map( $content );
+        $content = $engine->map( $content, $this->vars );
 
 		if($direct_output)
         	echo $content;
@@ -63,12 +66,6 @@ class View
     // begin static section
 
 	private static $path;
-
-	private static $engine;
-
-	public static function init( $folder ){
-		self::path( $folder );
-	}
 
     public static function path($path = null){
         if(isset($path))

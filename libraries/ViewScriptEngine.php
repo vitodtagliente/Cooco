@@ -4,60 +4,60 @@ namespace Pure;
 
 class ViewScriptEngine {
 
-	function map( $text ){
+	function map( $__pure_view_content, $__pure_view_params = array() ){
 
-		$text = $this->mapExtends( $text );
+		$__pure_view_content = $this->mapExtends( $__pure_view_content );
 
-		$scripts = $this->findScripts( $text, '{{', '}}' );
+		$__pure_view_scripts = $this->findScripts( $__pure_view_content, '{{', '}}' );
 
-        if( count( $scripts ) > 0 ){
-            foreach ($scripts as $script) {
-                $s = str_replace( '{{', '', $script );
-                $s = str_replace( '}}', '', $s );
-                $s = trim( $s );
-                $s = rtrim( $s, ';' );
-				/*
-                $error = false;
-                $argv = array();
-                $argf = null;
-                $value = null;
-                $arguments = null;
+        foreach ($__pure_view_scripts as $__pure_view_script) {
+        	// trim each script
+            $__pure_view_s = str_replace( '{{', '', $__pure_view_script );
+            $__pure_view_s = str_replace( '}}', '', $__pure_view_s );
+            $__pure_view_s = trim( $__pure_view_s );
 
-                if( strpos( $s, '::' ) !== false){
-                    $p = explode( '::', $s );
-                    $class = trim( $p[0] );
-                    if( class_exists( $class ) ){
-                        $method = trim( $p[1] );
-                        if( strpos( $method, '(' ) !== false){
-                            $p = explode( '(', $method );
-                            $method = trim( $p[0] );
-                            $arguments = trim( str_replace( ')', null, $p[1] ) );
-                        }
-                        $argf = array( $class, $method );
-                    }
-                }
-                else {
-                    if( strpos( $s, '(' ) !== false){
-                        $p = explode( '(', $s );
-                        $arguments = trim( str_replace( ')', '', $p[1] ) );
-                        if( function_exists( $p[0] ) )
-                            $argf = trim( $p[0] );
-                    }
-                }
+            $__pure_words_count = str_word_count( $__pure_view_s );
 
-                if( isset( $argf ) ){
-                    $value = call_user_func_array( $argf, $this->mapArguments($arguments) );
-                }
-				*/
-				$s = "return $s;";
-				$value = eval($s);
-                $text = str_replace( $script, $value, $text );
+            if( $__pure_words_count == 1 && strpos($__pure_view_s, '$') === 0 ){            	
+            	// it's a single word, one variable
+            	// try to replace it using eval 
+            	$__pure_view_s = rtrim( $__pure_view_s, ';' );
+
+            	$__pure_view_value = eval("return $__pure_view_s;");
+
+            	// if eval fails
+				// try to find a match with view's params
+				if ($__pure_view_value == null){
+
+					$__pure_view_s = ltrim( $__pure_view_s, '$' );
+
+					foreach ($__pure_view_params as $__pure_key => $__pure_value) {
+						if($__pure_key == $__pure_view_s)
+							$__pure_view_value = $__pure_value;
+					}
+				}
             }
+            else {
+            	// eval the script
+            	// TODO: exception handler
+				$__pure_view_value = eval($__pure_view_s);
+            }			
+
+            $__pure_view_content = str_replace( $__pure_view_script, $__pure_view_value, $__pure_view_content );
         }
-        return $text;
+        return $__pure_view_content;
 
 	}
 
+	/*
+		Returns an array of all scripts found:
+		[
+			'{{ script1; }}',
+			'{{ script2; }}',
+				.......
+			'{{ scriptn; }}'
+		]
+	*/
 	private function findScripts( $text, $begin, $end )
 	{
 		$scripts = array();
