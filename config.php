@@ -1,6 +1,6 @@
 <?php
 
-Pure\Session::start( 'ciao2222' );
+Pure\Session::start( 'pure.session.' );
 
 /*
 	---------------------------
