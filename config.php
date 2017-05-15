@@ -1,5 +1,7 @@
 <?php
 
+Pure\Session::start( 'ciao2222' );
+
 /*
 	---------------------------
 	Default paths configuration

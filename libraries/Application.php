@@ -7,6 +7,8 @@ class Application {
     private $_router;
 
     private static $instance;
+    
+    private $errorHandler = null;
 
     function __construct(){
         if( self::$instance == null )
@@ -25,9 +27,15 @@ class Application {
 
     public function run(){
         if( !$this->router()->dispatch() ){
-            View::make( 'system/error.php', ['text' => 'Cannot find the route!']);
+            if( $this->errorHandler == null )
+                echo "404. Route not found!";
+            else call_user_func( $this->errorHandler );
         }
     }
+
+    public function onError($callback){
+        $this->errorHandler = $callback;
+    } 
 
     function __destruct(){
 
