@@ -23,22 +23,27 @@ class ViewExtendEngine extends ViewEngine {
 
 	private $extended = false;
 	private $content = null;
+	private $canClear = true;
 
-	function __construct(){
-
+	function __construct($canClear = true){
+		$this->canClear = $canClear;
 	}
 
 	// if view contains extends rule, do extension
 	private function extendView( $text, $params = array() ){
 		if( strpos($text, '@extends(') !== false ){
-
+			// extract the template name
 			$pieces = explode( '@extends(', $text );
 			$pieces = explode( ')', $pieces[1] );
 			if( count( $pieces ) <= 0 )
 				return $text;
 
+			$template = trim($pieces[0]);
+			$template = trim($template, "'");
+			$template = trim($template, '"');
+
 			ob_start();
-			View::make($pieces[0], $params, true, true); // don't compute
+			View::make($template, $params, true, true);
 			$result = ob_get_contents();
 			ob_end_clean();
 
@@ -70,29 +75,38 @@ class ViewExtendEngine extends ViewEngine {
 		// inherit template
 		$this->content = $this->extendView( $text, $params );
 
-		if( $this->extended == false )
+		if( $this->extended == false && $this->canClear )
 			return $this->clear( $text );
 
 		// Map sections
 		foreach ($this->findRules($text, '@begin', '@end') as $rule) {
 			$section_name = null;
+			$begin_rule = null;
 			foreach ($this->findRules($rule, '(', ')') as $s) {
-				$section_name = trim($s);
+				$begin_rule = "@begin$s";
+				$section_name = ltrim($s, '(');
+				$section_name = rtrim($section_name, ')');
+				$section_name = trim($section_name);
 				$section_name = trim($section_name, "'");
 				$section_name = trim($section_name, '"');
+				// find only the first occurrence
+				break; 
 			}
 
-			if( $section_name == null )
+			if( $section_name == null || $begin_rule == null )
 				continue;
 
-			$pieces = explode( $rule, ')' );
-			$pieces = explode( $pieces[1], '@end' );
+			$pieces = explode( $begin_rule, $rule );
+			$pieces = explode( '@end', $pieces[1] );
 
 			// Override the section in parent template
 			$this->content = str_replace("@section($section_name)", $pieces[0], $this->content);
 			$this->content = str_replace("@section('$section_name')", $pieces[0], $this->content);
 			$this->content = str_replace("@section(\"$section_name\")", $pieces[0], $this->content);
 		}
+
+		if( $this->canClear )
+			$this->content = $this->clear( $this->content );
 
 		return $this->content;
 	}

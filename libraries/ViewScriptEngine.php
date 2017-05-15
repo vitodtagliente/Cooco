@@ -40,7 +40,7 @@ class ViewScriptEngine extends ViewEngine {
             else {
             	// eval the rule
             	// TODO: exception handler
-				$__pure_view_value = eval($__pure_view_r);
+				//$__pure_view_value = eval($__pure_view_r);
             }			
 
             $__pure_view_content = str_replace( $__pure_view_rule, $__pure_view_value, $__pure_view_content );

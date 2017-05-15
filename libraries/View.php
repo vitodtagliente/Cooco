@@ -48,10 +48,10 @@ class View
         $content = ob_get_contents();
 		ob_end_clean();
 
+        // Map view's inheritance
+        $extend_engine = new ViewExtendEngine(!$dont_compute);
+        $content = $extend_engine->map( $content, $this->vars );        
         if( $dont_compute == false ){
-            // Map view's inheritance
-            $extend_engine = new ViewExtendEngine();
-            $content = $extend_engine->map( $content, $this->vars );
             // Map functions and variables contained between {{ ... }}
             $script_engine = new ViewScriptEngine();
             $content = $script_engine->map( $content, $this->vars );

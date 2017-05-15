@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>{{ $text }}</title>
+		<title>@section(title)</title>
 	</head>
 	<body>
 
