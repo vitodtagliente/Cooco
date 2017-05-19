@@ -1,6 +1,7 @@
 <?php
 
-namespace Pure\Database;
+namespace Pure\Schema;
+use Pure\Database;
 
 class Schema {
 

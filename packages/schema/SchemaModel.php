@@ -1,6 +1,6 @@
 <?php
 
-namespace Pure\Database;
+namespace Pure\Schema;
 
 abstract class SchemaModel
 {

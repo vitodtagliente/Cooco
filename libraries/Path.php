@@ -10,6 +10,8 @@ class Path {
 
 	private static $root;
 	private static $resources;
+    private static $packages;
+    private static $routes;
 
 	public static function root($value = null){
         if(isset($value))
@@ -23,6 +25,17 @@ class Path {
         else return self::$resources;
     } 
 
+    public static function packages($value = null){
+        if(isset($value))
+            self::$packages = $value;
+        else return self::$packages;
+    } 
+
+    public static function routes($value = null){
+        if(isset($value))
+            self::$routes = $value;
+        else return self::$routes;
+    }
 
 	private function __destruct(){
 
