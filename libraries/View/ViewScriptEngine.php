@@ -1,6 +1,6 @@
 <?php
 
-namespace Pure;
+namespace Pure\View;
 
 class ViewScriptEngine extends ViewEngine {
 
@@ -18,9 +18,9 @@ class ViewScriptEngine extends ViewEngine {
 
             $__pure_words_count = str_word_count( $__pure_view_r );
 
-            if( $__pure_words_count == 1 && strpos($__pure_view_r, '$') === 0 ){            	
+            if( $__pure_words_count == 1 && strpos($__pure_view_r, '$') === 0 ){
             	// it's a single word, one variable
-            	// try to replace it using eval 
+            	// try to replace it using eval
             	$__pure_view_r = rtrim( $__pure_view_r, ';' );
 
             	$__pure_view_value = eval("return $__pure_view_r;");
@@ -41,7 +41,7 @@ class ViewScriptEngine extends ViewEngine {
             	// eval the rule
             	// TODO: exception handler
 				//$__pure_view_value = eval($__pure_view_r);
-            }			
+            }
 
             $__pure_view_content = str_replace( $__pure_view_rule, $__pure_view_value, $__pure_view_content );
         }

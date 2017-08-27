@@ -1,6 +1,6 @@
 <?php
 
-namespace Pure;
+namespace Pure\View;
 
 require_once __DIR__ . '/ViewEngine.php';
 require_once __DIR__ . '/ViewScriptEngine.php';
@@ -40,8 +40,8 @@ class View
             return false;
         }
 
-        // This allow to evaluate params in sections of view 
-        // where the php tag is used         
+        // This allow to evaluate params in sections of view
+        // where the php tag is used
         extract( $this->vars );
         ob_start();
         include( $filename );
@@ -50,7 +50,7 @@ class View
 
         // Map view's inheritance
         $extend_engine = new ViewExtendEngine(!$dont_compute);
-        $content = $extend_engine->map( $content, $this->vars );        
+        $content = $extend_engine->map( $content, $this->vars );
         if( $dont_compute == false ){
             // Map functions and variables contained between {{ ... }}
             $script_engine = new ViewScriptEngine();

@@ -1,6 +1,6 @@
 <?php
 
-namespace Pure;
+namespace Pure\View;
 
 abstract class ViewEngine {
 

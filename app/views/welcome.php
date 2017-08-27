@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Welcome to WebSeed</title>
+        <title>Welcome</title>
         <style>
             body {
                 background-color: #fff;

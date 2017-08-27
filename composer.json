@@ -14,11 +14,11 @@
     },
     "autoload": {
         "psr-4": {
-            "Pure\\": "libraries/"
+            "Pure\\": "libraries/",
+            "Database\\": "database/"
         },
         "classmap": [
-            "app/controllers/",
-            "packages/"
+            "app/controllers/"
         ]
     },
     "minimum-stability": "dev"

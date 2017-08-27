@@ -1,6 +1,7 @@
 <?php
 
-namespace Pure\Schema;
+namespace Pure\ORM;
+
 
 class SchemaBuilder {
 	private $columns = array();

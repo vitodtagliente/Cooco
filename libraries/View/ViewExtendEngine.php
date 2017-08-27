@@ -1,6 +1,6 @@
 <?php
 
-namespace Pure;
+namespace Pure\View;
 
 /*
 	implements the view's extension capability
@@ -90,7 +90,7 @@ class ViewExtendEngine extends ViewEngine {
 				$section_name = trim($section_name, "'");
 				$section_name = trim($section_name, '"');
 				// find only the first occurrence
-				break; 
+				break;
 			}
 
 			if( $section_name == null || $begin_rule == null )
