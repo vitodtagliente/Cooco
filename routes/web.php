@@ -2,6 +2,8 @@
 
 $router = Pure\Application::main()->router();
 
-$router->get('/', 'WelcomeController@index');
+$router->get('/', function(){
+    echo "Hello Pure!";
+});
 
 ?>

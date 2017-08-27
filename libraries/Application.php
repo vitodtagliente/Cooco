@@ -7,7 +7,7 @@ class Application {
     private $_router;
 
     private static $instance;
-    
+
     private $errorHandler = null;
 
     function __construct(){
@@ -21,7 +21,7 @@ class Application {
 
     public function router(){
         if( $this->_router == null )
-            $this->_router = new Router();
+            $this->_router = new Router\Router();
         return $this->_router;
     }
 
@@ -30,24 +30,6 @@ class Application {
             if( $this->errorHandler == null )
                 echo "404. Route not found!";
             else call_user_func( $this->errorHandler );
-        }
-    }
-
-    public function loadPackages($directory = null){
-        if( empty($directory) )
-            $directory = Path::packages();
-
-        if(is_dir($directory)){
-            $scan = scandir( $directory );
-            //unset . and ..
-            unset( $scan[0], $scan[1] );
-
-            foreach($scan as $dir) {
-                if( is_dir( "$directory/$dir" ) ) {
-                    if( file_exists( "$directory/$dir/package.php" ) )
-                        include_once "$directory/$dir/package.php";
-                }
-            } 
         }
     }
 
@@ -76,7 +58,7 @@ class Application {
 
     public function onError($callback){
         $this->errorHandler = $callback;
-    } 
+    }
 
     function __destruct(){
 

@@ -9,5 +9,17 @@
             "email": "vitodomenicotagliente@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "vitodtagliente/pure-router": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pure\\": "libraries/"
+        },
+        "classmap": [
+            "app/controllers/",
+            "packages/"
+        ]
+    },
+    "minimum-stability": "dev"
 }

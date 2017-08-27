@@ -10,7 +10,6 @@ class Path {
 
 	private static $root;
 	private static $resources;
-    private static $packages;
     private static $routes;
 
 	public static function root($value = null){
@@ -23,13 +22,7 @@ class Path {
         if(isset($value))
             self::$resources = $value;
         else return self::$resources;
-    } 
-
-    public static function packages($value = null){
-        if(isset($value))
-            self::$packages = $value;
-        else return self::$packages;
-    } 
+    }
 
     public static function routes($value = null){
         if(isset($value))

@@ -1,0 +1,54 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "52a265e140d746325bf4951b9597eb12",
+    "content-hash": "f334ac53af964f20516b61d860b745ac",
+    "packages": [
+        {
+            "name": "vitodtagliente/pure-router",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vitodtagliente/pure-router.git",
+                "reference": "2e4397b90e082906f2d00b982f94b2db2591050d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vitodtagliente/pure-router/zipball/2e4397b90e082906f2d00b982f94b2db2591050d",
+                "reference": "2e4397b90e082906f2d00b982f94b2db2591050d",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pure\\Router\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vito Domenico Tagliente",
+                    "email": "vitodomenicotagliente@gmail.com"
+                }
+            ],
+            "description": "The Pure Router Component",
+            "time": "2017-08-27 13:52:03"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "vitodtagliente/pure-router": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
