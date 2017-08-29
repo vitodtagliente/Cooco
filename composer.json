@@ -15,11 +15,9 @@
     "autoload": {
         "psr-4": {
             "Pure\\": "libraries/",
-            "Database\\": "database/"
-        },
-        "classmap": [
-            "app/controllers/"
-        ]
+            "Database\\": "database/",
+            "App\\Controller\\": "app/controllers/"
+        }
     },
     "minimum-stability": "dev"
 }

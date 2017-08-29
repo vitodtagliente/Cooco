@@ -1,5 +1,6 @@
 <?php
 
+namespace App\Controller;
 use Pure\Controller;
 use Pure\View\View;
 
