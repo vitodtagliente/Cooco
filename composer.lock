@@ -4,9 +4,42 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6b05a6bb19a5f6c30787c374c8d74bad",
-    "content-hash": "f334ac53af964f20516b61d860b745ac",
+    "hash": "2c0ee87ebd5d23025814141842aa2106",
+    "content-hash": "5e6c873c237174f63c630007d49fac59",
     "packages": [
+        {
+            "name": "vitodtagliente/pure-orm",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vitodtagliente/pure-orm.git",
+                "reference": "0ebbe1cbd29d3d7cd2616e4363b7373c5c44f5a0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vitodtagliente/pure-orm/zipball/0ebbe1cbd29d3d7cd2616e4363b7373c5c44f5a0",
+                "reference": "0ebbe1cbd29d3d7cd2616e4363b7373c5c44f5a0",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pure\\ORM\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vito Domenico Tagliente",
+                    "email": "vitodomenicotagliente@gmail.com"
+                }
+            ],
+            "description": "The Pure ORM Component",
+            "time": "2017-09-09 16:13:42"
+        },
         {
             "name": "vitodtagliente/pure-router",
             "version": "dev-master",
@@ -45,7 +78,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "vitodtagliente/pure-router": 20
+        "vitodtagliente/pure-router": 20,
+        "vitodtagliente/pure-orm": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

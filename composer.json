@@ -10,7 +10,8 @@
         }
     ],
     "require": {
-        "vitodtagliente/pure-router": "dev-master"
+        "vitodtagliente/pure-router": "dev-master",
+        "vitodtagliente/pure-orm": "dev-master"
     },
     "autoload": {
         "psr-4": {
