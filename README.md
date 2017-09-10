@@ -57,7 +57,8 @@ Pure follows the MVC pattern, it means that the behaviour is defined by Controll
 # Customize dependencies
 Install packages using composer and customize the application behaviour.
 The entire framework works on top of 3 components:
-[Pure Routing Component](https://github.com/vitodtagliente/pure-routing)
-[Pure ORM Component](https://github.com/vitodtagliente/pure-orm)
-[Pure Template Component](https://github.com/vitodtagliente/pure-template)
+* [Pure Routing Component](https://github.com/vitodtagliente/pure-routing)
+* [Pure ORM Component](https://github.com/vitodtagliente/pure-orm)
+* [Pure Template Component](https://github.com/vitodtagliente/pure-template)
+
 Look at their own Documentation
