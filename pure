@@ -27,14 +27,6 @@ if( count($argv) <= 1 ){
     return;
 }
 
-require_once __DIR__ . '/boot.php';
-require_once __DIR__ . '/libraries/CLI/Terminal.php';
-require_once __DIR__ . '/libraries/CLI/Command.php';
-
-Pure\CLI\Terminal::path( __DIR__ . '/cli' );
-$terminal = new Pure\CLI\Terminal();
-// Remove the first element cause equals to "pure"
-array_shift( $argv );
-$terminal->run( $argv );
+// TODO: add CLI support
 
 ?>
