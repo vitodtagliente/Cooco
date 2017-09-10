@@ -1,7 +1,7 @@
 <?php
 
 namespace Pure;
-use Pure\Router\Router;
+use Pure\Routing\Router;
 
 class Application {
 
