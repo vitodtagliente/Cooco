@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2c0ee87ebd5d23025814141842aa2106",
-    "content-hash": "5e6c873c237174f63c630007d49fac59",
+    "hash": "aa3cb6af47b2032afb70b42e77e44b16",
+    "content-hash": "a3937ce1ceb0d319ddd29d67e32ed3ca",
     "packages": [
         {
             "name": "vitodtagliente/pure-orm",
@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vitodtagliente/pure-orm.git",
-                "reference": "0ebbe1cbd29d3d7cd2616e4363b7373c5c44f5a0"
+                "reference": "50aaf57ee8baa3feb367922f3866f3fec48ed06f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vitodtagliente/pure-orm/zipball/0ebbe1cbd29d3d7cd2616e4363b7373c5c44f5a0",
-                "reference": "0ebbe1cbd29d3d7cd2616e4363b7373c5c44f5a0",
+                "url": "https://api.github.com/repos/vitodtagliente/pure-orm/zipball/50aaf57ee8baa3feb367922f3866f3fec48ed06f",
+                "reference": "50aaf57ee8baa3feb367922f3866f3fec48ed06f",
                 "shasum": ""
             },
             "type": "library",
@@ -38,7 +38,7 @@
                 }
             ],
             "description": "The Pure ORM Component",
-            "time": "2017-09-09 16:13:42"
+            "time": "2017-09-10 09:04:45"
         },
         {
             "name": "vitodtagliente/pure-router",
@@ -72,6 +72,39 @@
             ],
             "description": "The Pure Router Component",
             "time": "2017-08-27 13:52:03"
+        },
+        {
+            "name": "vitodtagliente/pure-view",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vitodtagliente/pure-view.git",
+                "reference": "c330ea2424810660290d5e28701051a097f44585"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vitodtagliente/pure-view/zipball/c330ea2424810660290d5e28701051a097f44585",
+                "reference": "c330ea2424810660290d5e28701051a097f44585",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pure\\View\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vito Domenico Tagliente",
+                    "email": "vitodomenicotagliente@gmail.com"
+                }
+            ],
+            "description": "The Pure View Component",
+            "time": "2017-09-10 10:24:21"
         }
     ],
     "packages-dev": [],
@@ -79,7 +112,8 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "vitodtagliente/pure-router": 20,
-        "vitodtagliente/pure-orm": 20
+        "vitodtagliente/pure-orm": 20,
+        "vitodtagliente/pure-view": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
