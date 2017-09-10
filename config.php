@@ -15,9 +15,9 @@ Pure\Session::config( 'pure.session.' );
 	--------------------------------------
 */
 
-Pure\Database::prepare(
+Pure\ORM\Database::prepare(
 	'mysql',				// connector type
-	'localhost',				// hostname
+	'localhost',			// hostname
 	'pure',					// database
 	'root',					// username
 	'root'					// password
@@ -32,6 +32,8 @@ Pure\Database::prepare(
 Pure\Path::root( __DIR__ );
 Pure\Path::routes( __DIR__ . '/routes' );
 Pure\Path::resources( __DIR__ . '/public' );
+
+// Set the path in which find application views
 Pure\View\View::path( __DIR__ . '/app/views' );
 
 /*
@@ -39,5 +41,7 @@ Pure\View\View::path( __DIR__ . '/app/views' );
 			Custom Configuration
 	--------------------------------------
 */
+
+// TODO
 
 ?>

@@ -1,10 +1,9 @@
 <?php
 
 namespace Pure;
+use Pure\Router\Router;
 
 class Application {
-
-    private $_router;
 
     private static $instance;
 
@@ -20,9 +19,7 @@ class Application {
     }
 
     public function router(){
-        if( $this->_router == null )
-            $this->_router = new Router\Router();
-        return $this->_router;
+        return Router::main();
     }
 
     public function run(){
