@@ -29,4 +29,14 @@ if( count($argv) <= 1 ){
 
 // TODO: add CLI support
 
+$command = $argv[1];
+switch($command)
+{
+    case 'start':
+        echo exec('php -S localhost:8000');
+        break;
+    default:
+        break;
+}
+
 ?>

@@ -10,10 +10,6 @@ class Session {
 		self::$session_string = $security_string;
 	}
 
-	public static function config( $value = 'pure.session.' ){
-		self::$session_string = $value;
-	}
-
 	static public function set( $key, $value ){
 		$key = self::$session_string . $key;
 		$obj = $value;

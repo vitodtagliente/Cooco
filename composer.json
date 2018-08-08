@@ -17,8 +17,7 @@
     "autoload": {
         "psr-4": {
             "Pure\\": "libraries/",
-            "Database\\": "database/",
-            "App\\Controller\\": "app/controllers/"
+            "App\\": "app/"
         }
     },
     "minimum-stability": "dev"

@@ -5,62 +5,120 @@ use Pure\Routing\Router;
 
 class Application {
 
-    private static $instance;
+    private static $instance = null;
 
-    private $errorHandler = null;
+    private function __construct(){}
+    public function __destruct(){}
 
-    function __construct(){
-        if( self::$instance == null )
-            self::$instance = $this;
-    }
-
+    // singleton pattern
     public static function main(){
+        if(!isset(self::$instance))
+            self::$instance = new Application;
         return self::$instance;
     }
 
-    public function router(){
-        return Router::main();
-    }
+    // application services
+    private $services = array();
+
+    // paths where to find routes
+    private $route_paths = array();
+
+    private $running = false;
+
 
     public function run(){
-        if( !$this->router()->dispatch() ){
-            if( $this->errorHandler == null )
-                echo "404. Route not found!";
-            else call_user_func( $this->errorHandler );
+        // run the application only one time
+        if($this->running) return;
+        $this->running = true;
+
+        // boot the application and services
+        $this->boot();
+
+        // load routes
+        $this->loadRoutesFrom(Config::get('app.routes_path'));
+        foreach($this->route_paths as $path){
+            include_directory($path, '.php');
         }
+
+        // load views
+        $this->loadViewsFrom(Config::get('app.views_path'));
+
+        // the application is ready, start all the services
+        $this->start();
+
+        // dispatch routing
+        $router = Router::main();
+        if(isset($router))
+        {
+            if(!$router->dispatch())
+            {
+                // error, route not found
+                echo "Error";
+            }
+        }
+
+        // stop all the services
+        $this->stop();
     }
 
-    private function include_directory($directory, $extension = '.php') {
-        if(is_dir($directory)) {
-            $scan = scandir($directory);
-            unset($scan[0], $scan[1]); //unset . and ..
-            foreach($scan as $file) {
-                if(is_dir($directory."/".$file)) {
-                    $this->include_directory($directory."/".$file, $extension);
-                } else {
-                    if(strpos($file, $extension) !== false) {
-                        include_once($directory."/".$file);
+    // boot the application and services
+    private function boot()
+    {
+        // load service classes by the config, instantiate here
+        $services_classes = config('app.services');
+        if(!empty($services_classes))
+        {
+            foreach($services_classes as $service_class)
+            {
+                if(class_exists($service_class)){
+                    $service = new $service_class;
+                    if($service && is_a($service, '\Pure\ApplicationService'))
+                    {
+                        array_push($this->services, $service);
                     }
                 }
             }
         }
+
+        // boot services
+        foreach($this->services as $service)
+        {
+            $service->boot();
+        }
     }
 
-    public function loadRoutes($directory = null){
-        if( empty($directory) )
-            $directory = Path::routes();
-
-        $this->include_directory($directory);
+    // start all the application services
+    private function start()
+    {
+        // start services
+        foreach($this->services as $service)
+        {
+            $service->start();
+        }
     }
 
-    public function onError($callback){
-        $this->errorHandler = $callback;
+    // end all the application services
+    private function stop()
+    {
+        // stop services
+        foreach($this->services as $service)
+        {
+            $service->stop();
+        }
     }
 
-    function __destruct(){
-
+    public function loadRoutesFrom($path){
+        if(in_array($path, $this->route_paths) == false)
+            array_push($this->route_paths, $path);
     }
 
+    public function loadViewsFrom($path, $namespace = null){
+        Template\View::namespace($path, $namespace);
+    }
+
+    public function registerService($service){
+        array_push($this->services, $service);
+    }
 }
 
 ?>
