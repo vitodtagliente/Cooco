@@ -1,5 +1,10 @@
 <?php
 
+/*
+	Questa classe permette l'avvio della sessione e la gestione
+	delle relative variabili. 
+*/
+
 namespace Pure;
 
 class Session {

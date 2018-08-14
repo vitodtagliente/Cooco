@@ -27,17 +27,25 @@ function config($option){
 // 1. the base application url
 // 2. a relative ulr to something inside the project
 
-function base_url($url = null){
-	if(isset($url)){
-		return Pure\Url::base() . '/' . $url;
+function base_url($action = null, $params = array()){
+	$url_params = null;
+	if(!empty($params)){
+		$comma = '?';
+		foreach($params as $key => $value){
+			$url_params .= "$comma$key=$value";
+			$comma = '&';
+		}
 	}
-	return Pure\Url::base();
+	return $action . $url_params;
 }
 
 // redirect function
 
 function redirect( $url, $code = 302, $condition = true ){
-    Pure\Url::redirect($url, $code, $condition);
+	if ( !$condition )
+		return;
+	@header( "Location: {$url}", true, $code );
+	exit;
 }
 
 // return the request input
@@ -81,21 +89,23 @@ function include_directory($directory, $extension = '.php') {
 }
 
 // return the application
-
 function app(){
 	return Pure\Application();
 }
 
 // return the router
-
 function router(){
 	return Pure\Routing\Router::main();
 }
 
 // make a view
-
 function view($template_file){
 	Pure\Template\View::make($template_file);
+}
+
+// var_dump alias
+function dd($variable){
+	var_dump($variable);
 }
 
 ?>

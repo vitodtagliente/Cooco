@@ -26,7 +26,9 @@ Pure\ORM\Database::prepare(
 );
 
 // run the application
-Pure\Application::main()->run();
+if(!isset($shell_mode))	$shell_mode = false;
+if(!isset($argv)) $argv = array();
+Pure\Application::main()->run($shell_mode, $argv);
 
 // close the database connection
 Pure\ORM\Database::end();

@@ -2,6 +2,7 @@
 
 namespace Pure\Commands;
 use Pure\Command;
+use Pure\Config;
 
 class app extends Command
 {
@@ -11,6 +12,7 @@ class app extends Command
         if(!isset($in_command))
             return;
 
+        // make commands
         if (strpos($in_command, 'make:') === 0) {
             $type_resource = str_replace('make:', '', $in_command);
 
@@ -37,6 +39,29 @@ class app extends Command
                     echo "Resource $resource_name" . ucfirst($type_resource) . ' created!';
                 }
                 else echo "Unable to create the resource";
+            }
+        }
+        // generate command
+        else if (strpos($in_command, 'generate:') === 0) {
+            $type = str_replace('generate:', '', $in_command);
+
+            if(!empty($type))
+            {
+                switch ($type) {
+                    case 'key':
+                    // generate the application session key
+                    $filename = Config::path() . '/app.ini';
+                    if(file_exists($filename))
+                    {
+                        echo "TODO: implement this command";
+                    }
+                    else echo "$filename not found!";
+                        break;
+
+                    default:
+                        // code...
+                        break;
+                }
             }
         }
         else echo "Command not found!";

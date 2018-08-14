@@ -1,0 +1,5 @@
+1. migrations da cmd
+
+2. middleware sul router
+
+4. Documentation pure and pure-components

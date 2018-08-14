@@ -1,5 +1,31 @@
 <?php
 
+/*
+    Questa classe modella l'applicazione. Implementa il pattern singleton,
+    pertanto si avrà una sola instanza attiva, ottenibile con la funzione
+    statica main(). $app = Pure\Application::main();
+    E' possibile avviare l'applicazione tramite il metodo 'run';
+
+    All'avvio, vengono svolte diverse operazioni:
+    - Vengono caricati i servizi:
+      Per essere caricati, occorre registrare le classi di tali all'interno del
+      file di configurazione 'app.ini'. I servizi permettono di customizzare
+      il comportamento dell'applicazione. All'interno dei servizi, è possibile
+      definire path alternativi da cui caricare le routes, le view e soprattutto
+      è possibile registrare le classi schema dall'esterno della configurazione
+      di default definita nel file 'app.ini'.
+    - Vengono caricati gli schema caricando le classi dal file app.ini.
+      In alternativa, è possibile registrare le classi anche a livello di codice
+      attraverso il metodo registerSchema('Namespace\Schemas\SchemaName');
+    - Carica le rotte dalla direcotry di default definita nel file app.ini e da
+      quelle registrate tramite il metodo loadRoutesFrom(path);
+    - Carica le viste suddivise per namespace.
+
+    E' possibile customizzare il comportamento dell'applicazione a seguito di una
+    navigazione verso un url invalido.
+    $app->routing_error_handler = function(){ ... };
+*/
+
 namespace Pure;
 use Pure\Routing\Router;
 
@@ -23,16 +49,25 @@ class Application {
     // paths where to find routes
     private $route_paths = array();
 
+    // application schemas: array of classes
+    private $schemas = array();
+
+    // the application running state
     private $running = false;
 
+    // error handler function
+    public $routing_error_handler = null;
 
-    public function run(){
+    public function run($shell_mode = false, $argv = array()){
         // run the application only one time
         if($this->running) return;
         $this->running = true;
 
         // boot the application and services
         $this->boot();
+
+        // create all the tables
+        $this->loadSchemas();
 
         // load routes
         $this->loadRoutesFrom(Config::get('app.routes_path'));
@@ -46,19 +81,54 @@ class Application {
         // the application is ready, start all the services
         $this->start();
 
-        // dispatch routing
-        $router = Router::main();
-        if(isset($router))
+        if($shell_mode)
         {
-            if(!$router->dispatch())
+            $command = array_shift($argv);
+            $this->execute_command($command, $argv);
+        }
+        else
+        {
+            // dispatch routing
+            $router = Router::main();
+            if(isset($router))
             {
-                // error, route not found
-                echo "Error";
+                if(!$router->dispatch())
+                {
+                    // Error, route not found
+                    if(is_callable($this->routing_error_handler))
+                        call_user_func($this->routing_error_handler);
+                    else echo "Error, route not found!";
+                }
             }
         }
 
         // stop all the services
         $this->stop();
+    }
+
+    private function execute_command($command, $arguments = array()){
+        if(!isset($command))
+        {
+            return;
+        }
+
+        // check for the command class,
+        // check if it is a pure command
+        $class_name = 'Pure\\Commands\\' . $command;
+        if(class_exists($class_name))
+        {
+            $cmd_object = new $class_name;
+
+            if(!$cmd_object || !is_a($cmd_object, '\Pure\Command'))
+                return;
+
+            // if args contain --help or -h,
+            // launch the help method
+            // else execute the command
+            if(in_array('--help', $arguments) || in_array('-h', $arguments))
+                $cmd_object->help();
+            else $cmd_object->execute($arguments);
+        }
     }
 
     // boot the application and services
@@ -107,6 +177,31 @@ class Application {
         }
     }
 
+    private function loadSchemas(){
+        // load schemas from app.ini and from registered classes
+        $schema_classes = array_merge($this->schemas, Config::get('app.schemas'));
+
+        // $schema_classes should be an array
+        if(is_array($schema_classes))
+            return;
+
+        foreach($schema_classes as $schema_class){
+            if(!empty($schema_class) && class_exists($schema_class))
+    		{
+                $schema = new $schema_class;
+                if($schema && is_a($schema, '\Pure\SchemaHandler'))
+                {
+                    $success = call_user_func(array($schema, 'create'));
+                    if(!$success)
+                    {
+                        var_dump("Schema error");
+                        // TODO: error management
+                    }
+                }
+    		}
+        }
+    }
+
     public function loadRoutesFrom($path){
         if(in_array($path, $this->route_paths) == false)
             array_push($this->route_paths, $path);
@@ -116,8 +211,8 @@ class Application {
         Template\View::namespace($path, $namespace);
     }
 
-    public function registerService($service){
-        array_push($this->services, $service);
+    public function registerSchema($schema_class){
+        array_push($this->schemas, $schema_class);
     }
 }
 
