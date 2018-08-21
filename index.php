@@ -4,9 +4,6 @@
 if( file_exists( __DIR__ . '/vendor/autoload.php' ) )
 	include_once( __DIR__ . '/vendor/autoload.php' );
 
-// user content development api
-require_once __DIR__ . '/dev.api.php';
-
 // set the config base directory
 Pure\Config::path(__DIR__ . '/app/Config');
 

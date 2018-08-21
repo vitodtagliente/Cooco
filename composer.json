@@ -12,11 +12,11 @@
     "require": {
         "vitodtagliente/pure-routing": "dev-master",
         "vitodtagliente/pure-orm": "dev-master",
-        "vitodtagliente/pure-template": "dev-master"
+        "vitodtagliente/pure-template": "dev-master",
+        "vitodtagliente/pure-core": "dev-master"
     },
     "autoload": {
         "psr-4": {
-            "Pure\\": "kernel/libraries/",
             "Pure\\Commands\\": "kernel/commands",
             "App\\": "app/"
         }

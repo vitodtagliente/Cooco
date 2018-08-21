@@ -22,10 +22,10 @@ class app extends Command
                 if(empty($resource_name))
                     return;
 
-                $folder = __DIR__ . '/../../app/' . ucfirst($type_resource) . 's';
+                $folder = base_path('app/'. ucfirst($type_resource) . 's');
                 $filename = $folder . '/' . $resource_name . '.php';
 
-                $resource_filename = __DIR__ . '/../make/' . $type_resource . '.php';
+                $resource_filename = base_path('kernel/make/' . $type_resource . '.php');
 
                 if(file_exists($folder) && !file_exists($filename) && file_exists($resource_filename))
                 {
