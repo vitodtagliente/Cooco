@@ -7,10 +7,6 @@ return array(
 	'name' => 'pure',
 	'shortname' => 'pure',
 
-	// is the application in development mode?
-	// 'development_mode' => true,
-	'development_mode' => true,
-
 	// be sure to change this variable, it is used by session handler
 	// 'security_string' => 'pure.application'
 	'security_string' => 'pure.application',
@@ -28,11 +24,7 @@ return array(
 	// 'schemas' => array(),
 	'schemas' => array(
 	
-	),
-
-	// Enable to show database queries in debug mode
-	// 'debug_database_queries' => false
-	'debug_database_queries' => false
+	)
 );
 
 ?>
